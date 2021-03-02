@@ -22,28 +22,33 @@ public class client{
 
       while(running){
         String input = scan.nextLine().toLowerCase();
-        System.out.println(input);
-
+        //quit
         if (input.equals("q")){
           running = false;
         }
-        if (input.equals("w")){
+        if (input.equals("read")){
+          //read data
+          try{
+            messageIn = (String)clientIn.readObject();
+            System.out.println("Message recieved from server: " + "\"" + messageIn + "\"");
+          }
+          catch(Exception e){
+            System.out.println("there are no message to recieve...");
+          }
+        }
+        else if(verification.checkName(input)){
           //write data
           messageOut = input;
           clientOut.writeObject(messageOut);
           clientOut.flush();
           System.out.println("\"" + messageOut + "\"" + " was sent to the server");
         }
-
-        if (input.equals("r")){
-          //read data
-          messageIn = (String)clientIn.readObject();
-          System.out.println("Message recieved from server: " + "\"" + messageIn + "\"");
-        }
       }
       clientOut.close();
       clientIn.close();
+      System.out.println("connections closed.");
       client.close();
+      System.out.println("client terminated");
     }
 
     catch(Exception e){

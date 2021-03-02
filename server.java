@@ -27,23 +27,28 @@ public class server{
         if (input.equals("q")){
           running = false;
         }
-        if (input.equals("rs")){
-          messageIn = (String)serverIn.readObject();
-          System.out.println("Message recieved from client: " + "\"" + messageIn + "\"");
+        if (input.equals("read")){
+          try{
+            messageIn = (String)serverIn.readObject();
+            System.out.println("Message recieved from client: " + "\"" + messageIn + "\"");
+          }
+          catch(Exception e){
+            System.out.println("there are no messages to recieve...");
+          }
         }
-        if (input.equals("ws")){
+        else if(verification.checkName(input)){
           messageOut = input;
           serverOut.writeObject(messageOut);
           serverOut.flush();
-          System.out.println("\"" + messageOut + "\"" + " was sent to the server");
+          System.out.println("\"" + messageOut + "\"" + " was sent to the client");
         }
       }
 
       serverIn.close();
       serverOut.close();
-      System.out.println("Connections Closed");
+      System.out.println("connections closed");
       server.close();
-      System.out.println("Server Terminated");
+      System.out.println("server terminated");
     }
     catch(Exception e){
       System.out.println("Server Failed...");
