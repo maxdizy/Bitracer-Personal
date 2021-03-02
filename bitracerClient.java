@@ -4,14 +4,14 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class bitracerClient{
+public class battleBashClient{
   public static void main(String[] args) throws Exception{
     try{
       Socket client = new Socket("192.168.0.110", 4444);
 
       ObjectOutputStream clientOut = new ObjectOutputStream(client.getOutputStream());
       //ObjectOutputStream serverOut = new ObjectOutputStream(connection.getOutputStream());
-      //ObjectInputStream clientIn = new ObjectInputStream(client.getInputStream());
+      ObjectInputStream clientIn = new ObjectInputStream(client.getInputStream());
       //ObjectInputStream serverIn = new ObjectInputStream(connection.getInputStream());
       System.out.println("Communication ready...");
 
@@ -19,6 +19,11 @@ public class bitracerClient{
       clientOut.writeObject(messageOut);
       clientOut.flush();
       System.out.println("\"" + messageOut + "\"" + " was sent to the server");
+
+      String messageIn = (String)clientIn.readObject();
+      System.out.println("Message recieved from server: " + "\"" + messageIn + "\"");
+
+
       clientOut.close();
       client.close();
     }
